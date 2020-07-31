@@ -7,10 +7,11 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Microsoft.Extensions.DependencyInjection;
+using Xamarin.Forms.Platform.Android;
 
 namespace UI.Mobie.AppCore.Droid
 {
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    public class AppActivity<T> :FormsAppCompatActivity where T:
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
