@@ -6,6 +6,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace UI.Mobie.AppCore.Droid
 {
@@ -23,6 +24,12 @@ namespace UI.Mobie.AppCore.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
         }
+
+        protected virtual IServiceCollection CreateServiceContainer()
+        {
+            return new ServiceCollection();
+        }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
