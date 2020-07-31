@@ -10,7 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace UI.Mobie.AppCore.Droid
 {
-    [Activity(Label = "UI.Mobie.AppCore", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
