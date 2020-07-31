@@ -7,7 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.Mobie.AppCore.Android", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.Mobie.AppCore.iOS", "UI.Mobie.AppCore\UI.Mobie.AppCore.iOS\UI.Mobie.AppCore.iOS.csproj", "{D888648A-7A78-4BB0-9989-CEA3E6C2E431}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.Mobie.AppCore", "UI.Mobie.AppCore\UI.Mobie.AppCore\UI.Mobie.AppCore.csproj", "{C593CA8F-37B1-4D2F-977B-6582F426553C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI.Mobie.AppCore", "UI.Mobie.AppCore\UI.Mobie.AppCore\UI.Mobie.AppCore.csproj", "{C593CA8F-37B1-4D2F-977B-6582F426553C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1B846C83-A13C-43B9-8D05-9C5CE8089AF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +64,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8533EAE9-1CB0-462A-AEE2-3D4E5030A174} = {1B846C83-A13C-43B9-8D05-9C5CE8089AF8}
+		{D888648A-7A78-4BB0-9989-CEA3E6C2E431} = {1B846C83-A13C-43B9-8D05-9C5CE8089AF8}
+		{C593CA8F-37B1-4D2F-977B-6582F426553C} = {1B846C83-A13C-43B9-8D05-9C5CE8089AF8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F70B01CF-379D-4F9D-A989-B21F65EE8C81}
