@@ -14,7 +14,7 @@ namespace UI.Mobie.AppCore.Services
         {
             _Service = serviceProvider;
             Authentication = serviceProvider.GetRequiredService<IAppAuthenticationManager>();
-            Settings = serviceProvider.GetRequiredService<IAppSetting>();
+            //Settings = serviceProvider.GetRequiredService<IAppSetting>();
             User = new ClaimsPrincipal();
             User.AddIdentity(new ClaimsIdentity());
             ClaimsPrincipal.ClaimsPrincipalSelector = () => User;
@@ -28,7 +28,7 @@ namespace UI.Mobie.AppCore.Services
 
         public IServiceProvider Services { get; }
 
-        public ClaimsPrincipal User { get; }
+        public ClaimsPrincipal User { get; internal set; }
 
         public IAppSetting Settings { get; }
     }

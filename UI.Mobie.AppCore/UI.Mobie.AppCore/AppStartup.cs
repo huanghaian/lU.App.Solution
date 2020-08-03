@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UI.Mobie.AppCore.Services;
+using UI.Mobie.BasicCore;
 using Xamarin.Forms;
 
 namespace UI.Mobie.AppCore
@@ -12,7 +14,10 @@ namespace UI.Mobie.AppCore
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<Application>(this);
             services.AddSingleton(this);
+            services.AddSingleton<IAppAuthenticationManager, AppAuthenticationManager>();
+
             ConfigureServicesCore(services);
         }
 

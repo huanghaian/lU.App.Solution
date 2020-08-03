@@ -3,10 +3,14 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using TestSampleApp.Services;
 using TestSampleApp.Views;
+using UI.Mobie.AppCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TestSampleApp
 {
-    public partial class App : Application
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+
+    public partial class App : AppStartup
     {
 
         public App()
@@ -16,17 +20,9 @@ namespace TestSampleApp
             DependencyService.Register<MockDataStore>();
             MainPage = new MainPage();
         }
-
-        protected override void OnStart()
+        protected override void ConfigureServicesCore(IServiceCollection services)
         {
         }
 
-        protected override void OnSleep()
-        {
-        }
-
-        protected override void OnResume()
-        {
-        }
     }
 }
