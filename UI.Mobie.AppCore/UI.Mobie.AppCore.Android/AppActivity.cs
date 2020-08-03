@@ -11,18 +11,17 @@ using Xamarin.Forms.Platform.Android;
 
 namespace UI.Mobie.AppCore.Droid
 {
-    public class AppActivity<T> :FormsAppCompatActivity where T:
+    public class AppActivity<T> :FormsAppCompatActivity where T:AppStartup,new()
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            TabLayoutResource = Resource.Layout.Tabbar;
-            ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            LoadApplication(new App());
+            var app = new T();
+            LoadApplication(app);
         }
 
         protected virtual IServiceCollection CreateServiceContainer()

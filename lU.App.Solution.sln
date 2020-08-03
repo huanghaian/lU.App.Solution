@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSampleApp.Android", "Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSampleApp.iOS", "TestSampleApp\TestSampleApp.iOS\TestSampleApp.iOS.csproj", "{7D4CF763-547B-416B-A132-CC911AE53C50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSampleApp", "TestSampleApp\TestSampleApp\TestSampleApp.csproj", "{B81A53BC-08BB-4522-BCD9-3978E4E1504B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestSampleApp", "TestSampleApp\TestSampleApp\TestSampleApp.csproj", "{B81A53BC-08BB-4522-BCD9-3978E4E1504B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
