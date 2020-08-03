@@ -15,4 +15,8 @@
     <PackageReference Include="Xamarin.Forms" Version="4.8.0.1238-pre3" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\UI.Mobie.BasicCore\UI.Mobie.BasicCore.csproj" />
+  </ItemGroup>
 </Project>

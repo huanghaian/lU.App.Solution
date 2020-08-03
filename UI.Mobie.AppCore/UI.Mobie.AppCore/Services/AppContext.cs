@@ -1,10 +1,35 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
+using UI.Mobie.BasicCore;
 
 namespace UI.Mobie.AppCore.Services
 {
-    class AppContext
+    public class AppContext : IAppContext
     {
+        private IServiceProvider _Service;
+        public AppContext(IServiceProvider serviceProvider)
+        {
+            _Service = serviceProvider;
+            Authentication = serviceProvider.GetRequiredService<IAppAuthenticationManager>();
+            Settings = serviceProvider.GetRequiredService<IAppSetting>();
+            User = new ClaimsPrincipal();
+            User.AddIdentity(new ClaimsIdentity());
+            ClaimsPrincipal.ClaimsPrincipalSelector = () => User;
+            ClaimsPrincipal.PrimaryIdentitySelector = identies =>
+            {
+                ClaimsIdentity anonymous = null;
+                return anonymous;
+            };
+        }
+        public IAppAuthenticationManager Authentication { get; }
+
+        public IServiceProvider Services { get; }
+
+        public ClaimsPrincipal User { get; }
+
+        public IAppSetting Settings { get; }
     }
 }

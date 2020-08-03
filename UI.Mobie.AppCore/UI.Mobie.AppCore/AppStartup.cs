@@ -8,6 +8,8 @@ namespace UI.Mobie.AppCore
 {
     public class AppStartup:Application
     {
+        public Services.AppContext AppContext { get; private set; }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(this);
@@ -18,6 +20,12 @@ namespace UI.Mobie.AppCore
         {
 
         }
+        public void Configure(IServiceProvider serviceProvider)
+        {
+            AppContext = new Services.AppContext(serviceProvider);
+            ConfigureCore(serviceProvider);
+        }
+        protected virtual void ConfigureCore(IServiceProvider serviceProvider) { }
 
         protected sealed override void OnStart()
         {
