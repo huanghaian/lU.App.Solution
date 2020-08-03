@@ -25,8 +25,13 @@ namespace UI.Mobie.AppCore.Droid
             services.AddSingleton<Activity>(this);
             var app = new T();
             app.ConfigureServices(services);
+            ConfigureServices(services);
+            var serviceProvider= services.BuildServiceProvider();
+            app.Configure(serviceProvider);
             LoadApplication(app);
         }
+        protected virtual void ConfigureServices(IServiceCollection services) { }
+
         protected virtual void OnPreInitForms()
         {
 
