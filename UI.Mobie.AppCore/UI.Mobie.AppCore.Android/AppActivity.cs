@@ -17,11 +17,24 @@ namespace UI.Mobie.AppCore.Droid
         {
 
             base.OnCreate(savedInstanceState);
-
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+            OnPreInitForms();
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            OnInitForms();
+
+            var services = CreateServiceContainer();
+            services.AddSingleton<Activity>(this);
             var app = new T();
+            app.ConfigureServices(services);
             LoadApplication(app);
+        }
+        protected virtual void OnPreInitForms()
+        {
+
+        }
+
+        protected virtual void OnInitForms()
+        {
+
         }
 
         protected virtual IServiceCollection CreateServiceContainer()
