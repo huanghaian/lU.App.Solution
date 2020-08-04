@@ -9,7 +9,7 @@ namespace UI.Mobie.AppCore.Services
 {
     public class AppContext : IAppContext
     {
-        private IServiceProvider _Service;
+        private readonly IServiceProvider _Service;
         public AppContext(IServiceProvider serviceProvider)
         {
             _Service = serviceProvider;
@@ -26,7 +26,7 @@ namespace UI.Mobie.AppCore.Services
         }
         public IAppAuthenticationManager Authentication { get; }
 
-        public IServiceProvider Services { get; }
+        public IServiceProvider Services { get => _Service; }
 
         public ClaimsPrincipal User { get; internal set; }
 
