@@ -14,7 +14,7 @@ namespace TestSampleApp.Services
         {
             try
             {
-                return new AppRepository();
+                return null;
             }
             catch(Exception ex)
             {

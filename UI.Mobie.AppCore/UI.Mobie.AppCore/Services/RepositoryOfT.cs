@@ -17,10 +17,7 @@ namespace UI.Mobie.AppCore.Services
             }
             _repository = factory.CreateRepository(typeof(T));
         }
-        T[] IRepository.GetAll<T>()
-        {
-            return _repository.GetAll<T>();
-        }
+       
 
         async Task<T[]> IRepository.GetAllAsync<T>()
         {

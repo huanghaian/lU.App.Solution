@@ -30,7 +30,6 @@ namespace TestSampleApp.Views
         public async Task NavigateFromMenu(int id)
         {
             var _repository = AppServices.Current.Services.GetService<IRepository<HomeMenuItem>>();
-            var model = _repository.GetAll<HomeMenuItem>();
             if (!MenuPages.ContainsKey(id))
             {
                 switch (id)

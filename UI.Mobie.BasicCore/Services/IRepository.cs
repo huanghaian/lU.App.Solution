@@ -7,7 +7,6 @@ namespace UI.Mobie.BasicCore.Services
 {
     public interface IRepository
     {
-        T[] GetAll<T>();
         Task<T[]> GetAllAsync<T>();
     }
 }
