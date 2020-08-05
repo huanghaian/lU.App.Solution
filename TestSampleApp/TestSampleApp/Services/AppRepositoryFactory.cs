@@ -10,25 +10,14 @@ namespace TestSampleApp.Services
 {
     public class AppRepositoryFactory : IRepositoryFactory
     {
-        private static readonly Dictionary<Type, IRepository> FactoryDictionary;
-        static AppRepositoryFactory()
-        {
-            FactoryDictionary = new Dictionary<Type, IRepository>()
-            {
-                { typeof(Item),new ItemRepository()}
-            };
-        }
         public IRepository CreateRepository(Type type)
         {
             try
             {
-                return FactoryDictionary[type];
+                return new AppRepository();
             }
             catch(Exception ex)
             {
-                if (ex is KeyNotFoundException)
-                    throw new ArgumentException($"在{nameof(FactoryDictionary)}不存在{type}的类型实例");
-                else
                     throw new ArgumentException("创建仓储失败");
             }
         }
