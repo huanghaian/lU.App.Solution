@@ -6,6 +6,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using TestSampleApp.Models;
+using UI.Mobie.AppCore;
+using UI.Mobie.BasicCore.Services;
 
 namespace TestSampleApp.Views
 {
@@ -22,10 +24,13 @@ namespace TestSampleApp.Views
             MasterBehavior = MasterBehavior.Popover;
 
             MenuPages.Add((int)MenuItemType.Browse, (NavigationPage)Detail);
+            //_repository = AppServices.Current.Services.GetService<IRepository<Item>>();
         }
 
         public async Task NavigateFromMenu(int id)
         {
+            var _repository = AppServices.Current.Services.GetService<IRepository<Item>>();
+            var model = _repository.GetAll<Item>();
             if (!MenuPages.ContainsKey(id))
             {
                 switch (id)
