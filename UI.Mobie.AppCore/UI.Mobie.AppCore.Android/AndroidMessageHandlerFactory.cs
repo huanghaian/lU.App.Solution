@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 
 using Android.App;
@@ -9,10 +10,16 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Microsoft.AspNetCore.Http.Connections.Client;
+using UI.Mobie.AppCore.Abstractions;
 
 namespace UI.Mobie.AppCore.Droid
 {
-    public class AndroidMessageHandlerFactory:
+    public class AndroidMessageHandlerFactory : IHttpMessageHandlerFactory
     {
+        public HttpMessageHandler Handle(HttpMessageHandler messageHandler, HttpConnectionOptions options)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
