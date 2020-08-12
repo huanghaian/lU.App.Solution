@@ -8,6 +8,7 @@ using Android.Widget;
 using Android.OS;
 using Microsoft.Extensions.DependencyInjection;
 using Xamarin.Forms.Platform.Android;
+using UI.Mobie.BasicCore;
 
 namespace UI.Mobie.AppCore.Droid
 {
@@ -23,6 +24,8 @@ namespace UI.Mobie.AppCore.Droid
 
             var services = CreateServiceContainer();
             services.AddSingleton<Activity>(this);
+            services.AddSingleton(ApplicationContext);
+            services.AddSingleton<IAppSetting, AppSettings>();
             var app = new T();
             app.ConfigureServices(services);
             ConfigureServices(services);

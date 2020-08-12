@@ -16,6 +16,7 @@ namespace UI.Mobie.AppCore
         {
             services.AddSingleton<Application>(this);
             services.AddSingleton(this);
+            services.AddSingleton<IAppStorageProvider, AppStorageProvider>();
             services.AddSingleton<IAppAuthenticationManager, AppAuthenticationManager>();
 
             ConfigureServicesCore(services);

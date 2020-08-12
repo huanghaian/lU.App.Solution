@@ -50,6 +50,8 @@ namespace UI.Mobie.AppCore.Droid
                 await command.ExecuteNonQueryAsync();
             }
         }
+
+
         private bool _Disposed;
         public void Dispose()
         {
