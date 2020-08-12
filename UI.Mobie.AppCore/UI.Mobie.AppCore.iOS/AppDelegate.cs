@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using Microsoft.Extensions.DependencyInjection;
 using UIKit;
 
+[assembly: Preserve(typeof(System.Linq.Queryable), AllMembers = true)]
 namespace UI.Mobie.AppCore.iOS
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
-    [Register("AppDelegate")]
-    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+    public partial class AppDelegateBase<T> : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate where T:AppStartup,new()
     {
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
@@ -22,11 +23,37 @@ namespace UI.Mobie.AppCore.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            //global::Xamarin.Forms.Forms.Init();
-            //LoadApplication(new App());
+            OnPreInitForms();
+            global::Xamarin.Forms.Forms.Init();
+            OnInitForms();
 
-            //return base.FinishedLaunching(app, options);
-            return true;
+            var services = CreateServiceContainer();
+            services.AddSingleton(app);
+            var appStart = new T();
+            appStart.ConfigureServices(services);
+            ConfigureServices(services);
+#pragma warning disable CS1702 // 假定程序集引用与标识匹配
+            var serviceProvider = services.BuildServiceProvider();
+#pragma warning restore CS1702 // 假定程序集引用与标识匹配
+            appStart.Configure(serviceProvider);
+
+            LoadApplication(appStart);
+
+            return base.FinishedLaunching(app, options);
+        }
+
+        protected virtual IServiceCollection CreateServiceContainer()
+        {
+            return new ServiceCollection();
+        }
+        protected virtual void ConfigureServices(IServiceCollection services) { }
+
+        protected virtual void OnInitForms()
+        {
+        }
+
+        protected virtual void OnPreInitForms()
+        {
         }
     }
 }

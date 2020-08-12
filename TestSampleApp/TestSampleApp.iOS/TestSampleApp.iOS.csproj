@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="services\AppSettings.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -137,6 +138,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\..\UI.Mobie.BasicCore\UI.Mobie.BasicCore.csproj">
+      <Project>{7A9CD668-7BE1-460C-B146-7372B144584A}</Project>
+      <Name>UI.Mobie.BasicCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TestSampleApp\TestSampleApp.csproj">
       <Project>{B76AF0E6-A6B3-4C38-A27C-483D1B48BAA9}</Project>
       <Name>TestSampleApp</Name>

@@ -66,6 +66,7 @@
     <Compile Include="IOSHttpMessageHandlerFactory.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="services\AppSettings.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -116,7 +117,9 @@
     </ImageAsset>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Mono.Data.Sqlite" />
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
@@ -127,9 +130,6 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
       <Version>3.1.6</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
-      <Version>3.1.6</Version>
-    </PackageReference>
     <PackageReference Include="System.Net.Http">
       <Version>4.3.4</Version>
     </PackageReference>
@@ -138,6 +138,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\..\UI.Mobie.BasicCore\UI.Mobie.BasicCore.csproj">
+      <Project>{7A9CD668-7BE1-460C-B146-7372B144584A}</Project>
+      <Name>UI.Mobie.BasicCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UI.Mobie.AppCore\UI.Mobie.AppCore.csproj">
       <Project>{906A4F4A-FF1F-49BA-BEE6-694F35D3E318}</Project>
       <Name>UI.Mobie.AppCore</Name>
