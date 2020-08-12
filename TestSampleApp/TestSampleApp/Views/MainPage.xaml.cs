@@ -23,7 +23,6 @@ namespace TestSampleApp.Views
             MasterBehavior = MasterBehavior.Popover;
 
             MenuPages.Add((int)MenuItemType.Browse, (NavigationPage)Detail);
-            //_repository = AppServices.Current.Services.GetService<IRepository<Item>>();
         }
 
         public async Task NavigateFromMenu(int id)

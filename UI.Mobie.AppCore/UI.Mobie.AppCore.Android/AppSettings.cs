@@ -24,7 +24,7 @@ namespace UI.Mobie.AppCore.Droid
             if (!file.Exists)
             {
                 SqliteConnection.CreateFile(file.FullName);
-                _Connection = new SqliteConnection("Data Source"+file.FullName);
+                _Connection = new SqliteConnection("Data Source="+file.FullName);
                 _Connection.Open();
                 using (var command = _Connection.CreateCommand())
                 {
@@ -34,7 +34,7 @@ namespace UI.Mobie.AppCore.Droid
             }
             else
             {
-                _Connection = new SqliteConnection("Data Source" + file.FullName);
+                _Connection = new SqliteConnection("Data Source=" + file.FullName);
                 _Connection.Open();
             }
         }
