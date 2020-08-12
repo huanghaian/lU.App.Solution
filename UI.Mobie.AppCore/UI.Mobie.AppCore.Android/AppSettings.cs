@@ -9,35 +9,84 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using SQLite;
+using Mono.Data.Sqlite;
 using UI.Mobie.BasicCore;
 
 namespace UI.Mobie.AppCore.Droid
 {
     public class AppSettings : IAppSetting, IDisposable
     {
-        private SQLiteConnection _Connection;
-        public AppSettings()
+        private SqliteConnection _Connection;
+        public AppSettings(IAppStorageProvider provider)
         {
+            var storage = provider.GetStorage();
+            var file = storage.GetFileInfo("/AppSettings.db");
+            if (!file.Exists)
+            {
+                SqliteConnection.CreateFile(file.FullName);
+                _Connection = new SqliteConnection("Data Source"+file.FullName);
+                _Connection.Open();
+                using (var command = _Connection.CreateCommand())
+                {
+                    command.CommandText = "create table [settings] ([Key] ntext Not Null,[Value] ntext,PRIMARY KEY([Key]))";
+                    command.ExecuteNonQuery();
+                }
+            }
+            else
+            {
+                _Connection = new SqliteConnection("Data Source" + file.FullName);
+                _Connection.Open();
+            }
         }
         public Task ClearAsync()
         {
             throw new NotImplementedException();
         }
-
+        private bool _Disposed;
         public void Dispose()
         {
-            throw new NotImplementedException();
+            if (_Disposed)
+                return;
+            _Disposed = true;
+            _Connection.Close();
+            _Connection = null;
+
         }
 
-        public Task<string> GetAysnc(string key)
+        public async Task<string> GetAysnc(string key)
         {
-            throw new NotImplementedException();
+            if (_Disposed)
+                throw new ObjectDisposedException(nameof(AppSettings));
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+            if(_Connection.State == System.Data.ConnectionState.Closed)
+                await _Connection.OpenAsync();
+            using (var command  = _Connection.CreateCommand())
+            {
+                command.CommandText = "SELECT [Value] FROM [settings] WHERE [Key]=@KEY;";
+                command.Parameters.AddWithValue("KEY",key);
+                var result = await command.ExecuteScalarAsync();
+                if (result == DBNull.Value)
+                    return null;
+                return (string)result;
+            }
         }
 
-        public Task SetAsync(string key, string value)
+        public async Task SetAsync(string key, string value)
         {
-            throw new NotImplementedException();
+            if (_Disposed)
+                throw new ObjectDisposedException(nameof(AppSettings));
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+            if (_Connection.State == System.Data.ConnectionState.Closed)
+                await _Connection.OpenAsync();
+            using (var command = _Connection.CreateCommand())
+            {
+                command.CommandText = "REPLACE INTO [settings] VALUES(@KEY,@VALUE);";
+                command.Parameters.AddWithValue("KEY",key);
+                command.Parameters.AddWithValue("VALUE",value);
+                await command.ExecuteNonQueryAsync();
+            }
         }
     }
 }

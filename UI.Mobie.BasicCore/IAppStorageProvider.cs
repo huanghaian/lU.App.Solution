@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace UI.Mobie.AppCore.Services
+namespace UI.Mobie.BasicCore
 {
-    public class IAppStorageProvider
+    public interface IAppStorageProvider
     {
-        
+        IAppStorage GetStorage();
     }
 }
