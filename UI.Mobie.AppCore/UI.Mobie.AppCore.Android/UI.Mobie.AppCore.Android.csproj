@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="AndroidMessageHandlerFactory.cs" />
     <Compile Include="AppActivity.cs" />
+    <Compile Include="AppSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +73,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\..\UI.Mobie.BasicCore\UI.Mobie.BasicCore.csproj">
+      <Project>{7A9CD668-7BE1-460C-B146-7372B144584A}</Project>
+      <Name>UI.Mobie.BasicCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UI.Mobie.AppCore\UI.Mobie.AppCore.csproj">
       <Project>{906A4F4A-FF1F-49BA-BEE6-694F35D3E318}</Project>
       <Name>UI.Mobie.AppCore</Name>

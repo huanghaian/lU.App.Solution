@@ -7,7 +7,6 @@ using Xamarin.Forms.Xaml;
 
 using TestSampleApp.Models;
 using UI.Mobie.AppCore;
-using UI.Mobie.BasicCore.Services;
 
 namespace TestSampleApp.Views
 {
@@ -29,7 +28,6 @@ namespace TestSampleApp.Views
 
         public async Task NavigateFromMenu(int id)
         {
-            var _repository = AppServices.Current.Services.GetService<IRepository<HomeMenuItem>>();
             if (!MenuPages.ContainsKey(id))
             {
                 switch (id)
