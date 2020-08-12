@@ -38,9 +38,17 @@ namespace UI.Mobie.AppCore.Droid
                 _Connection.Open();
             }
         }
-        public Task ClearAsync()
+        public async Task ClearAsync()
         {
-            throw new NotImplementedException();
+            if (_Disposed)
+                throw new ObjectDisposedException(nameof(AppSettings));
+            if (_Connection.State == System.Data.ConnectionState.Closed)
+                await _Connection.OpenAsync();
+            using (var command = _Connection.CreateCommand())
+            {
+                command.CommandText = "DELETE [settings]";
+                await command.ExecuteNonQueryAsync();
+            }
         }
         private bool _Disposed;
         public void Dispose()
