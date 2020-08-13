@@ -24,7 +24,7 @@ namespace UI.Mobie.AppCore.iOS.services
                 _Connection.Open();
                 using (var command = _Connection.CreateCommand())
                 {
-                    command.CommandText = "create table [settings] ([Key] ntext Not Null,[Value] ntext,PRIMARY KEY([Key]))";
+                    command.CommandText = "create table [settings] ([Key] ntext Not Null,[Value] ntext,primary key([Key]))";
                     command.ExecuteNonQuery();
                 }
             }

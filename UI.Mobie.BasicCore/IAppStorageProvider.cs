@@ -6,6 +6,6 @@ namespace UI.Mobie.BasicCore
 {
     public interface IAppStorageProvider
     {
-        IAppStorage GetStorage();
+        IAppStorage GetStorage(string type=null);
     }
 }

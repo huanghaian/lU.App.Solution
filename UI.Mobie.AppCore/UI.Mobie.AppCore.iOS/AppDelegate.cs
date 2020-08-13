@@ -4,6 +4,8 @@ using System.Linq;
 
 using Foundation;
 using Microsoft.Extensions.DependencyInjection;
+using UI.Mobie.AppCore.iOS.services;
+using UI.Mobie.BasicCore;
 using UIKit;
 
 [assembly: Preserve(typeof(System.Linq.Queryable), AllMembers = true)]
@@ -29,6 +31,7 @@ namespace UI.Mobie.AppCore.iOS
 
             var services = CreateServiceContainer();
             services.AddSingleton(app);
+            services.AddSingleton<IAppSetting, AppSettings>();
             var appStart = new T();
             appStart.ConfigureServices(services);
             ConfigureServices(services);

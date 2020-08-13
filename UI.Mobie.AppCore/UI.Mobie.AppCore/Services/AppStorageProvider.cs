@@ -7,9 +7,31 @@ namespace UI.Mobie.AppCore.Services
 {
     public class AppStorageProvider : IAppStorageProvider
     {
-        public IAppStorage GetStorage()
+        public IAppStorage GetStorage(string type=null)
         {
-            return new AppStroge(Xamarin.Essentials.FileSystem.AppDataDirectory+"/App_Data");
+            if (type != null)
+            {
+                string root;
+                switch (type)
+                {
+                    case "database":
+                       root = Xamarin.Essentials.FileSystem.AppDataDirectory + "/Data";
+                        break;
+                    case "app":
+                        root=Xamarin.Essentials.FileSystem.AppDataDirectory + "/App";
+                        break; 
+                    default:
+                        root = Xamarin.Essentials.FileSystem.AppDataDirectory + "/File";
+                        break;
+                }
+                return new AppStroge(root);
+
+            }
+            else
+            {
+                return new AppStroge(Xamarin.Essentials.FileSystem.AppDataDirectory + "/App_Data");
+
+            }
         }
     }
 }
