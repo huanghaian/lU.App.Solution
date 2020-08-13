@@ -32,19 +32,28 @@ namespace TestWebApiSample.Controllers
         }
         [AllowAnonymous]
         [HttpPost]
-        public async Task<TokeResult> Login([FromBody]LoginViewModel loginViewModel)
+        public async Task<TokeResult> Login(LoginViewModel loginViewModel)
         {
             if (loginViewModel == null)
                 throw new ArgumentNullException(nameof(loginViewModel));
-            var result = await _SignInManager.PasswordSignInAsync(loginViewModel.UserName,loginViewModel.PassWord,false,false);
-            if (result.Succeeded)
+            try
             {
-                var user =await _UserManager.Users.SingleOrDefaultAsync(t=>t.UserName==loginViewModel.UserName);
-                var token= GetAssceeToken(user);
-                return new TokeResult() { Token = token, Succeeded = true, Error = string.Empty };
+                var result = await _SignInManager.PasswordSignInAsync(loginViewModel.UserName, loginViewModel.PassWord, false, false);
+                if (result.Succeeded)
+                {
+                    var user = await _UserManager.Users.SingleOrDefaultAsync(t => t.UserName == loginViewModel.UserName);
+                    var token = GetAssceeToken(user);
+                    return new TokeResult() { Token = token, Succeeded = true, Error = string.Empty };
+                }
+                else
+                    return new TokeResult() { Succeeded = result.Succeeded, Token = string.Empty, Error = "登录失败，请验证账号密码" };
             }
-            else
-                return new TokeResult() { Succeeded = result.Succeeded,Token=string.Empty,Error="登录失败，请验证账号密码"};
+            catch(Exception ex)
+            {
+                _Logger.LogError(ex.Message);
+                return new TokeResult() { Succeeded = false, Token = "", Error = ex.Message };
+            }
+            
         }
         private string GetAssceeToken(User user)
         {
