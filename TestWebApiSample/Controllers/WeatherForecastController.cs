@@ -11,7 +11,7 @@ using TestWebApiSample.Entity;
 namespace TestWebApiSample.Controllers
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]
+    [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
