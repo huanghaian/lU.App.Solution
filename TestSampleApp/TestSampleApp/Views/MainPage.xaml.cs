@@ -42,8 +42,9 @@ namespace TestSampleApp.Views
                     Options.HttpMessageHandlerFactory = messageHandler => httpMessageHandlerFactory.Handle(messageHandler, Options);
                 };
                 var httpclient = AppHttpClient.Current.CreateHttpClient(connectionOption);
-                var json = "{\"username\":\"ui@test.com\",\"password\":\"123@Abc\"}";
-                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+                var data = new Dictionary<string, string>() { { "username", "ui@test.com" }, { "password", "123@Abc" } };
+                var jsonData = JsonConvert.SerializeObject(data);
+                var content = new StringContent(jsonData, System.Text.Encoding.UTF8, "application/json");
                 var result = await httpclient.PostAsync("http://0.0.0.0/api/account/login", content);
                 if (result.IsSuccessStatusCode)
                 {
