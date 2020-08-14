@@ -9,6 +9,8 @@ using Android.OS;
 using Microsoft.Extensions.DependencyInjection;
 using Xamarin.Forms.Platform.Android;
 using UI.Mobie.BasicCore;
+using Xamarin.Forms;
+using UI.Mobie.AppCore.Abstractions;
 
 namespace UI.Mobie.AppCore.Droid
 {
@@ -21,7 +23,7 @@ namespace UI.Mobie.AppCore.Droid
             OnPreInitForms();
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             OnInitForms();
-
+            DependencyService.Register<IHttpMessageHandlerFactory, AndroidMessageHandlerFactory>();
             var services = CreateServiceContainer();
             services.AddSingleton<Activity>(this);
             services.AddSingleton(ApplicationContext);

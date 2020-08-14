@@ -4,9 +4,11 @@ using System.Linq;
 
 using Foundation;
 using Microsoft.Extensions.DependencyInjection;
+using UI.Mobie.AppCore.Abstractions;
 using UI.Mobie.AppCore.iOS.services;
 using UI.Mobie.BasicCore;
 using UIKit;
+using Xamarin.Forms;
 
 [assembly: Preserve(typeof(System.Linq.Queryable), AllMembers = true)]
 namespace UI.Mobie.AppCore.iOS
@@ -28,7 +30,7 @@ namespace UI.Mobie.AppCore.iOS
             OnPreInitForms();
             global::Xamarin.Forms.Forms.Init();
             OnInitForms();
-
+            DependencyService.Register<IHttpMessageHandlerFactory, IOSHttpMessageHandlerFactory>();
             var services = CreateServiceContainer();
             services.AddSingleton(app);
             services.AddSingleton<IAppSetting, AppSettings>();

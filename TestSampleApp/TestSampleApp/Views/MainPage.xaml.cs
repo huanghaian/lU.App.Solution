@@ -7,6 +7,12 @@ using Xamarin.Forms.Xaml;
 
 using TestSampleApp.Models;
 using UI.Mobie.AppCore;
+using Microsoft.AspNetCore.Http.Connections.Client;
+using UI.Mobie.AppCore.Abstractions;
+using System.Net.Http;
+using System.Threading;
+using Newtonsoft.Json;
+using TestSampleApp.ViewModels;
 
 namespace TestSampleApp.Views
 {
@@ -27,6 +33,30 @@ namespace TestSampleApp.Views
 
         public async Task NavigateFromMenu(int id)
         {
+            try
+            {
+                var httpMessageHandlerFactory = DependencyService.Get<IHttpMessageHandlerFactory>();
+
+                Action<HttpConnectionOptions> connectionOption = Options =>
+                {
+                    Options.HttpMessageHandlerFactory = messageHandler => httpMessageHandlerFactory.Handle(messageHandler, Options);
+                };
+                var httpclient = AppHttpClient.Current.CreateHttpClient(connectionOption);
+                var json = "{\"username\":\"ui@test.com\",\"password\":\"123@Abc\"}";
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+                var result = await httpclient.PostAsync("http://0.0.0.0/api/account/login", content);
+                if (result.IsSuccessStatusCode)
+                {
+                    var contentString = await result.Content.ReadAsStringAsync();
+                    var model = JsonConvert.DeserializeObject<LogInResultViewModel>(contentString);
+                    Console.WriteLine(contentString);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
             if (!MenuPages.ContainsKey(id))
             {
                 switch (id)

@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using Microsoft.AspNetCore.Http.Connections.Client;
 using UI.Mobie.AppCore.Abstractions;
+using Xamarin.Android.Net;
 
 namespace UI.Mobie.AppCore.Droid
 {
@@ -19,7 +20,9 @@ namespace UI.Mobie.AppCore.Droid
     {
         public HttpMessageHandler Handle(HttpMessageHandler messageHandler, HttpConnectionOptions options)
         {
-            throw new NotImplementedException();
+            var handler = new AndroidClientHandler();
+            handler.Credentials = ((HttpClientHandler)messageHandler).Credentials;
+            return handler;
         }
     }
 }
