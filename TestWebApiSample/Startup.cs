@@ -18,6 +18,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using TestWebApiSample.Entity;
+using TestWebApiSample.Helper;
 
 namespace TestWebApiSample
 {
@@ -61,6 +62,8 @@ namespace TestWebApiSample
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+            services.AddSingleton<INpoiExcelProvider, ExcelHandler>();  
+            services.AddSingleton<INpoiWordProvider,WrodHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
