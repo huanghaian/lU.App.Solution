@@ -5,9 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Authentication;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TestSampleApp.ViewModels;
+using UI.Mobie.AppCore;
 using UI.Mobie.AppCore.Abstractions;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -48,8 +50,6 @@ namespace TestSampleApp.Views
                       {
                           return SecureStorage.SetAsync("AuthToken", model.Token);
                       });
-
-
                 }
             }
             catch (Exception ex)
