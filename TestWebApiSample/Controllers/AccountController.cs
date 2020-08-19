@@ -37,8 +37,6 @@ namespace TestWebApiSample.Controllers
         {
             if (loginViewModel == null)
                 throw new ArgumentNullException(nameof(loginViewModel));
-            try
-            {
                 var result = await _SignInManager.PasswordSignInAsync(loginViewModel.UserName, loginViewModel.PassWord, false, false);
                 if (result.Succeeded)
                 {
@@ -47,14 +45,7 @@ namespace TestWebApiSample.Controllers
                     return new TokeResult() { Token = token, Succeeded = true, Error = string.Empty };
                 }
                 else
-                    throw new AuthenticationException();
-            }
-            catch(Exception ex)
-            {
-                _Logger.LogError(ex.Message);
-                return new TokeResult() { Succeeded = false, Token = "", Error = ex.Message };
-            }
-            
+                    return new TokeResult() { Token = "", Succeeded = false, Error = string.Empty };
         }
         private string GetAssceeToken(User user)
         {

@@ -38,26 +38,31 @@ namespace TestSampleApp.Views
                 var data = new Dictionary<string, string>() { { "username", username.Text }, { "password", password.Text } };
                 var jsonData = JsonConvert.SerializeObject(data);
                 var content = new StringContent(jsonData, System.Text.Encoding.UTF8, "application/json");
-                var result = await httpclient.PostAsync("http://*/api/account/login", content);
+                var result = await httpclient.PostAsync("http://10.67.2.59/api/account/login", content);
                 if (result.IsSuccessStatusCode)
                 {
-
                     var contentString = await result.Content.ReadAsStringAsync();
                     var model = JsonConvert.DeserializeObject<LogInResultViewModel>(contentString);
-                    Navigation.InsertPageBefore(new MainPage(), this);
-                    await Navigation.PopAsync();
-                    _ = Task.Run(() =>
-                      {
-                          return SecureStorage.SetAsync("AuthToken", model.Token);
-                      });
+                    if (model.Succeeded)
+                    {
+                        Navigation.InsertPageBefore(new MainPage(), this);
+                        await Navigation.PopAsync();
+                        _ = Task.Run(() =>
+                        {
+                            return SecureStorage.SetAsync("AuthToken", model.Token);
+                        });
+                    }
+                    else
+                    {
+                        await this.DisplayAlert("提示", "登录失败", "取消");
+
+                    }
+
                 }
             }
             catch (Exception ex)
             {
-                if (ex is AuthenticationException)
-                {
-                    await this.DisplayAlert("提示", "登录失败", "取消");
-                }
+
             }
         }
     }

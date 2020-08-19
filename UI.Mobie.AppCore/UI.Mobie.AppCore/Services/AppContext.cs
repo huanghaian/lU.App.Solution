@@ -13,7 +13,7 @@ namespace UI.Mobie.AppCore.Services
         public AppContext(IServiceProvider serviceProvider)
         {
             _Service = serviceProvider;
-            Authentication = serviceProvider.GetRequiredService<IAppAuthenticationManager>();
+            //Authentication = serviceProvider.GetRequiredService<IAppAuthenticationManager>();
             Settings = serviceProvider.GetRequiredService<IAppSetting>();
             User = new ClaimsPrincipal();
             User.AddIdentity(new ClaimsIdentity());
