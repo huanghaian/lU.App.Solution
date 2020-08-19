@@ -33,7 +33,7 @@ namespace TestSampleApp.Services
                 return data;
             }else if(result.StatusCode== HttpStatusCode.Unauthorized)
             {
-                throw new UnauthorizedAccessException(result.RequestMessage.ToString());
+                throw new UnauthorizedAccessException(result.ReasonPhrase);
             }
             else
             {

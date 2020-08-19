@@ -23,24 +23,16 @@ namespace TestSampleApp.Views
 
         private async void TestButton_Clicked(object sender, EventArgs e)
         {
-            //var client = AppHttpClient.Current.CreateHttpClient();
-            //var token = await SecureStorage.GetAsync("AuthToken");
-            //client.DefaultRequestHeaders.Add("Authorization", "Bearer "+token);
-            //var result = await client.GetAsync("http://10.67.2.59/api/WeatherForecast/GetValues");
-            //if (result.IsSuccessStatusCode)
-            //{
-            //    var data = await result.Content.ReadAsStringAsync();
-            //    var _data = JsonConvert.DeserializeObject<WeatherViewModel[]>(data);
-            //    Console.WriteLine(data);
-            //}
             try
             {
                 var retult = await AppServices.Current.Services.GetService<IWeatherService>().GetWeathers();
-
             }
             catch(Exception ex)
             {
+                if(ex is UnauthorizedAccessException)
+                {
 
+                }
             }
         }
     }
