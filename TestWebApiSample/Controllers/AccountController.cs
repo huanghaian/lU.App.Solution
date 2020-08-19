@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 using TestWebApiSample.Entity;
@@ -46,7 +47,7 @@ namespace TestWebApiSample.Controllers
                     return new TokeResult() { Token = token, Succeeded = true, Error = string.Empty };
                 }
                 else
-                    return new TokeResult() { Succeeded = result.Succeeded, Token = string.Empty, Error = "登录失败，请验证账号密码" };
+                    throw new AuthenticationException();
             }
             catch(Exception ex)
             {
@@ -60,7 +61,7 @@ namespace TestWebApiSample.Controllers
             var config = HttpContext.RequestServices.GetService<IConfiguration>();
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]));
             var credentials= new SigningCredentials(securityKey,SecurityAlgorithms.HmacSha256);
-            var token = new JwtSecurityToken(config["Jwt:Issuer"],config["Jwt:Issuer"],null,expires:DateTime.Now.AddMinutes(30),signingCredentials:credentials);
+            var token = new JwtSecurityToken(config["Jwt:Issuer"],config["Jwt:Issuer"],null,expires:DateTime.Now.AddSeconds(30),signingCredentials:credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
         public async Task<string> InitUser()

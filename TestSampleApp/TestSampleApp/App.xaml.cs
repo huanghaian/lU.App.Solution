@@ -6,6 +6,7 @@ using TestSampleApp.Views;
 using UI.Mobie.AppCore;
 using Microsoft.Extensions.DependencyInjection;
 using UI.Mobie.AppCore.Services;
+using UI.Mobie.AppCore.Abstractions;
 
 namespace TestSampleApp
 {
@@ -19,7 +20,15 @@ namespace TestSampleApp
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new LoginPage());
+        }
+        protected override void OnStartBase()
+        {
+            var httpMessageHandlerFactory = DependencyService.Get<IHttpMessageHandlerFactory>();
+            AppHttpClient.Current.Options = Options =>
+            {
+                Options.HttpMessageHandlerFactory = messageHandler => httpMessageHandlerFactory.Handle(messageHandler, Options);
+            };
         }
         protected override void ConfigureServicesCore(IServiceCollection services)
         {

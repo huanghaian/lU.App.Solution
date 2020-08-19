@@ -17,15 +17,18 @@ namespace TestSampleApp
         {
             _AppHttpClient = new AppHttpClient();
         }
+
+        public Action<HttpConnectionOptions> Options { get; set; }
+
         public static AppHttpClient Current { get => _AppHttpClient; }
         private AppHttpClient()
         {
 
         }
-        public HttpClient CreateHttpClient(Action<HttpConnectionOptions> connectionOption)
+        public HttpClient CreateHttpClient(Action<HttpConnectionOptions> connectionOption=null)
         { 
             var opt = new HttpConnectionOptions();
-            connectionOption(opt);
+            Options?.Invoke(opt);
             var handler = new HttpClientHandler();
             handler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
             var client = new HttpClient(opt.HttpMessageHandlerFactory(handler),false);
