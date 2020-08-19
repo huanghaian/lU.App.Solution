@@ -18,17 +18,17 @@ namespace TestSampleApp
         public App()
         {
             InitializeComponent();
-
-            DependencyService.Register<MockDataStore>();
-            MainPage = new NavigationPage(new LoginPage());
-        }
-        protected override void OnStartBase()
-        {
             var httpMessageHandlerFactory = DependencyService.Get<IHttpMessageHandlerFactory>();
             AppHttpClient.Current.Options = Options =>
             {
                 Options.HttpMessageHandlerFactory = messageHandler => httpMessageHandlerFactory.Handle(messageHandler, Options);
             };
+            DependencyService.Register<MockDataStore>();
+            MainPage = new NavigationPage(new LoginPage());
+        }
+        protected override void OnStartBase()
+        {
+            
         }
         protected override void ConfigureServicesCore(IServiceCollection services)
         {
