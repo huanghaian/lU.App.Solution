@@ -52,7 +52,7 @@ namespace TestWebApiSample.Controllers
             var config = HttpContext.RequestServices.GetService<IConfiguration>();
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]));
             var credentials= new SigningCredentials(securityKey,SecurityAlgorithms.HmacSha256);
-            var token = new JwtSecurityToken(config["Jwt:Issuer"],config["Jwt:Issuer"],null,expires:DateTime.Now.AddSeconds(30),signingCredentials:credentials);
+            var token = new JwtSecurityToken(config["Jwt:Issuer"],config["Jwt:Issuer"],null,expires:DateTime.Now.AddMinutes(30),signingCredentials:credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
         public async Task<string> InitUser()

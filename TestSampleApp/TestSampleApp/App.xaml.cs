@@ -7,6 +7,7 @@ using UI.Mobie.AppCore;
 using Microsoft.Extensions.DependencyInjection;
 using UI.Mobie.AppCore.Services;
 using UI.Mobie.AppCore.Abstractions;
+using TestApp.Interface;
 
 namespace TestSampleApp
 {
@@ -23,6 +24,7 @@ namespace TestSampleApp
             {
                 Options.HttpMessageHandlerFactory = messageHandler => httpMessageHandlerFactory.Handle(messageHandler, Options);
             };
+            AppHttpClient.BaiseUrl = "http://10.67.2.59";
             DependencyService.Register<MockDataStore>();
             MainPage = new NavigationPage(new LoginPage());
         }
@@ -32,7 +34,7 @@ namespace TestSampleApp
         }
         protected override void ConfigureServicesCore(IServiceCollection services)
         {
-            
+            services.AddSingleton<IWeatherService, WeatherService>();
         }
 
     }

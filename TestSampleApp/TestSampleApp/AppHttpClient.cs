@@ -11,13 +11,12 @@ namespace TestSampleApp
 {
     public class AppHttpClient
     {
-        private static IHttpMessageHandlerFactory httpMessageHandlerFactory;
-        private static AppHttpClient _AppHttpClient;
+        private static  AppHttpClient _AppHttpClient;
         static AppHttpClient()
         {
             _AppHttpClient = new AppHttpClient();
         }
-
+        public static string BaiseUrl { get; set; }
         public Action<HttpConnectionOptions> Options { get; set; }
 
         public static AppHttpClient Current { get => _AppHttpClient; }
@@ -32,6 +31,8 @@ namespace TestSampleApp
             var handler = new HttpClientHandler();
             handler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
             var client = new HttpClient(opt.HttpMessageHandlerFactory(handler),false);
+            if(BaiseUrl!=null)
+                client.BaseAddress = new Uri(BaiseUrl);
             return client;
         }
     }

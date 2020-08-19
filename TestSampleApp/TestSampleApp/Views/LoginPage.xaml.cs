@@ -55,7 +55,6 @@ namespace TestSampleApp.Views
                     else
                     {
                         await this.DisplayAlert("提示", "登录失败", "取消");
-
                     }
 
                 }

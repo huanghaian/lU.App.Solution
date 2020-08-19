@@ -1,63 +1,46 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using TestApp.Interface;
+using TestSampleApp.ViewModels;
+using UI.Mobie.AppCore;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-using TestSampleApp.Models;
-using UI.Mobie.AppCore;
-using Microsoft.AspNetCore.Http.Connections.Client;
-using UI.Mobie.AppCore.Abstractions;
-using System.Net.Http;
-using System.Threading;
-using Newtonsoft.Json;
-using TestSampleApp.ViewModels;
-using Xamarin.Essentials;
-
 namespace TestSampleApp.Views
 {
-    // Learn more about making custom code visible in the Xamarin.Forms previewer
-    // by visiting https://aka.ms/xamarinforms-previewer
-    [DesignTimeVisible(false)]
-    public partial class MainPage : MasterDetailPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class MainPage : ContentPage
     {
-        Dictionary<int, NavigationPage> MenuPages = new Dictionary<int, NavigationPage>();
         public MainPage()
         {
             InitializeComponent();
-
-            MasterBehavior = MasterBehavior.Popover;
-
-            MenuPages.Add((int)MenuItemType.Browse, (NavigationPage)Detail);
         }
 
-        public async Task NavigateFromMenu(int id)
+        private async void TestButton_Clicked(object sender, EventArgs e)
         {
-
-            if (!MenuPages.ContainsKey(id))
+            //var client = AppHttpClient.Current.CreateHttpClient();
+            //var token = await SecureStorage.GetAsync("AuthToken");
+            //client.DefaultRequestHeaders.Add("Authorization", "Bearer "+token);
+            //var result = await client.GetAsync("http://10.67.2.59/api/WeatherForecast/GetValues");
+            //if (result.IsSuccessStatusCode)
+            //{
+            //    var data = await result.Content.ReadAsStringAsync();
+            //    var _data = JsonConvert.DeserializeObject<WeatherViewModel[]>(data);
+            //    Console.WriteLine(data);
+            //}
+            try
             {
-                switch (id)
-                {
-                    case (int)MenuItemType.Browse:
-                        MenuPages.Add(id, new NavigationPage(new ItemsPage()));
-                        break;
-                    case (int)MenuItemType.About:
-                        MenuPages.Add(id, new NavigationPage(new AboutPage()));
-                        break;
-                }
+                var retult = await AppServices.Current.Services.GetService<IWeatherService>().GetWeathers();
+
             }
-
-            var newPage = MenuPages[id];
-
-            if (newPage != null && Detail != newPage)
+            catch(Exception ex)
             {
-                Detail = newPage;
 
-                if (Device.RuntimePlatform == Device.Android)
-                    await Task.Delay(100);
-
-                IsPresented = false;
             }
         }
     }
