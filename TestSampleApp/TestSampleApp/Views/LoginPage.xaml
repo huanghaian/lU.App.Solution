@@ -4,6 +4,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             Appearing="ContentPage_Appearing"
+             Disappearing="ContentPage_Appearing"
              x:Class="TestSampleApp.Views.LoginPage">
     <ContentPage.Content>
         <Grid Margin="15,10,15,0">

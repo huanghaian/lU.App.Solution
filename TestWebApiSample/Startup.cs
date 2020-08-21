@@ -77,7 +77,7 @@ namespace TestWebApiSample
             services.AddSingleton<INpoiExcelProvider, ExcelHandler>();  
             services.AddSingleton<INpoiWordProvider,WrodHandler>();
             services.AddStackExchangeRedisCache(options=> {
-                options.Configuration = "localhost";
+                options.Configuration = Configuration["Redis:Host"];
             });
         }
 
