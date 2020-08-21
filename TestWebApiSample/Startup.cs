@@ -41,14 +41,14 @@ namespace TestWebApiSample
             });
             services.AddControllers();
             //services.AddIdentityCore<User>().AddRoles<Role>().AddEntityFrameworkStores<ApplicationDbContext>().AddSignInManager().AddDefaultTokenProviders();
-            services.AddIdentity<User,Role>().AddEntityFrameworkStores<ApplicationDbContext>().AddSignInManager().AddDefaultTokenProviders();
+            services.AddIdentity<User, Role>().AddEntityFrameworkStores<ApplicationDbContext>().AddSignInManager().AddDefaultTokenProviders();
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
-            services.AddAuthentication(options=> {
+            services.AddAuthentication(options =>
+            {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-                .AddJwtBearer(options =>
+            }).AddJwtBearer(options =>
                 {
                     options.RequireHttpsMetadata = false;
                     options.SaveToken = true;
@@ -74,9 +74,10 @@ namespace TestWebApiSample
                     //};
                 });
             IdentityModelEventSource.ShowPII = true;
-            services.AddSingleton<INpoiExcelProvider, ExcelHandler>();  
-            services.AddSingleton<INpoiWordProvider,WrodHandler>();
-            services.AddStackExchangeRedisCache(options=> {
+            services.AddSingleton<INpoiExcelProvider, ExcelHandler>();
+            services.AddSingleton<INpoiWordProvider, WrodHandler>();
+            services.AddStackExchangeRedisCache(options =>
+            {
                 options.Configuration = Configuration["Redis:Host"];
             });
         }
@@ -92,10 +93,10 @@ namespace TestWebApiSample
             //app.UseHttpsRedirection();
 
             app.UseRouting();
-            
+
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
