@@ -153,7 +153,7 @@ namespace TestWebApiSample.Controllers
             }
         }
 
-        public ClaimsPrincipal GetPrincipal(string token)
+        private ClaimsPrincipal GetPrincipal(string token)
         {
             JwtSecurityTokenHandler jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
             var jwtSecurityToken = jwtSecurityTokenHandler.ReadJwtToken(token);
