@@ -73,12 +73,16 @@ namespace TestSampleApp.Views
 
         private async void ContentPage_Appearing(object sender, EventArgs e)
         {
-            var result = await SecureStorage.GetAsync(AppConsts.User_Account);
-            var account = JsonConvert.DeserializeObject<AccountViewModel>(result);
-            if (account != null)
+            if (IsLoaded)
             {
-                await LoginCore(account.UserName, account.PassWord);
+                var result = await SecureStorage.GetAsync(AppConsts.User_Account);
+                var account = JsonConvert.DeserializeObject<AccountViewModel>(result);
+                if (account != null)
+                {
+                    await LoginCore(account.UserName, account.PassWord);
+                }
             }
+           
         }
     }
 }
