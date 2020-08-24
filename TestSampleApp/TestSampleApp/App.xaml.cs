@@ -34,7 +34,7 @@ namespace TestSampleApp
         }
         protected override void ConfigureServicesCore(IServiceCollection services)
         {
-            services.AddSingleton<IWeatherService, WeatherService>();
+            services.AddTransient<IWeatherService, WeatherService>();
         }
 
     }

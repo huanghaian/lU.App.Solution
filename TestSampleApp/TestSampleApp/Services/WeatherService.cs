@@ -19,7 +19,9 @@ namespace TestSampleApp.Services
         public WeatherService()
         {
             _client = AppHttpClient.Current.CreateHttpClient();
-            var token = AsyncHelper.RunAsync(async()=> { return await SecureStorage.GetAsync("AuthToken"); });
+            var token = AsyncHelper.RunAsync(async()=> { return await SecureStorage.GetAsync(AppConsts.Access_Token); });
+            if (token == null)
+                throw new ArgumentNullException(nameof(token));
             _client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
         }
         public async Task<WeatherViewModel[]> GetWeathers()
@@ -31,7 +33,7 @@ namespace TestSampleApp.Services
             {
                 var data = JsonConvert.DeserializeObject<WeatherViewModel[]>(await result.Content.ReadAsStringAsync());
                 return data;
-            }else if(result.StatusCode== HttpStatusCode.Unauthorized)
+            }else if(result.StatusCode== HttpStatusCode.Unauthorized||result.StatusCode==HttpStatusCode.Forbidden)
             {
                 throw new UnauthorizedAccessException(result.ReasonPhrase);
             }

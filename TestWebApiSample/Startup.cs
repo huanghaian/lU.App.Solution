@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -39,7 +40,6 @@ namespace TestWebApiSample
             {
                 options.ConfigureWarnings(b => b.Log(CoreEventId.ManyServiceProvidersCreatedWarning)).UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-            services.AddControllers();
             //services.AddIdentityCore<User>().AddRoles<Role>().AddEntityFrameworkStores<ApplicationDbContext>().AddSignInManager().AddDefaultTokenProviders();
             services.AddIdentity<User, Role>().AddEntityFrameworkStores<ApplicationDbContext>().AddSignInManager().AddDefaultTokenProviders();
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
@@ -64,22 +64,28 @@ namespace TestWebApiSample
                     };
                     //options.Events = new JwtBearerEvents
                     //{
-                    //    OnAuthenticationFailed = context => {
-                    //        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-                    //        {
-                    //            context.Response.Headers.Add("token_act", "expired");
-                    //        }
+                    //    OnTokenValidated = context =>
+                    //    {
+                    //     var appIdentity = new ClaimsIdentity(claims,JwtBearerDefaults.AuthenticationScheme);
+                    //        context.Principal.AddIdentity(appIdentity);
+
                     //        return Task.CompletedTask;
                     //    }
                     //};
                 });
             IdentityModelEventSource.ShowPII = true;
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AppUser",policy=>policy.RequireClaim("AppUser"));
+            });
             services.AddSingleton<INpoiExcelProvider, ExcelHandler>();
             services.AddSingleton<INpoiWordProvider, WrodHandler>();
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = Configuration["Redis:Host"];
             });
+            services.AddControllers();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

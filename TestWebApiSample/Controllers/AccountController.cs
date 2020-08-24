@@ -90,6 +90,7 @@ namespace TestWebApiSample.Controllers
             {
                 new Claim(JwtRegisteredClaimNames.Sub,user.UserName),
                 new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
+                new Claim("AppUser","AppUser"),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
             };
             var token = new JwtSecurityToken(config["Jwt:Issuer"], config["Jwt:Issuer"], cliams, expires: DateTime.Now.AddMinutes(120), signingCredentials: credentials);

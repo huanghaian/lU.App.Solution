@@ -60,7 +60,7 @@ namespace TestWebApiSample.Controllers
             })
             .ToArray();
         }
-        [Authorize]
+        [Authorize(Policy= "AppUser")]
         public IEnumerable<WeatherForecast> GetValues()
         {
             var rng = new Random();

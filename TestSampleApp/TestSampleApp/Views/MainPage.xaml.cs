@@ -31,7 +31,7 @@ namespace TestSampleApp.Views
             {
                 if(ex is UnauthorizedAccessException)
                 {
-
+                    
                 }
             }
         }
