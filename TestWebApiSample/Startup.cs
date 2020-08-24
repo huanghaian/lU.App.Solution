@@ -40,7 +40,6 @@ namespace TestWebApiSample
             {
                 options.ConfigureWarnings(b => b.Log(CoreEventId.ManyServiceProvidersCreatedWarning)).UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-            //services.AddIdentityCore<User>().AddRoles<Role>().AddEntityFrameworkStores<ApplicationDbContext>().AddSignInManager().AddDefaultTokenProviders();
             services.AddIdentity<User, Role>().AddEntityFrameworkStores<ApplicationDbContext>().AddSignInManager().AddDefaultTokenProviders();
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
             services.AddAuthentication(options =>
