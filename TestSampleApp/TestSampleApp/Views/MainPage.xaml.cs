@@ -26,6 +26,7 @@ namespace TestSampleApp.Views
             try
             {
                 var retult = await AppServices.Current.Services.GetService<IWeatherService>().GetWeathers();
+                await DisplayAlert("提示",retult.Length.ToString(),"取消");
             }
             catch(Exception ex)
             {

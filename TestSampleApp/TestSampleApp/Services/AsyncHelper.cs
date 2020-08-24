@@ -15,7 +15,7 @@ namespace TestSampleApp.Services
         {
              _taskFactory.StartNew(func).Unwrap().GetAwaiter().GetResult();
         }
-        public static TResult RunAsync<TResult>(Func<Task<TResult>> func)
+        public static TResult RunWithResultAsync<TResult>(Func<Task<TResult>> func)
         {
            return _taskFactory.StartNew(func).Unwrap().GetAwaiter().GetResult();
         }

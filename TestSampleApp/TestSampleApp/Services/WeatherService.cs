@@ -19,7 +19,7 @@ namespace TestSampleApp.Services
         public WeatherService()
         {
             _client = AppHttpClient.Current.CreateHttpClient();
-            var token = AsyncHelper.RunAsync(async()=> { return await SecureStorage.GetAsync(AppConsts.Access_Token); });
+            var token = AsyncHelper.RunWithResultAsync(async()=> { return await SecureStorage.GetAsync(AppConsts.Access_Token); });
             if (token == null)
                 throw new ArgumentNullException(nameof(token));
             _client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + token);
