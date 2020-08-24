@@ -8,6 +8,7 @@ using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using TestApp.Interface.Models;
 using TestSampleApp.ViewModels;
 using UI.Mobie.AppCore;
 using UI.Mobie.AppCore.Abstractions;
@@ -61,6 +62,8 @@ namespace TestSampleApp.Views
                     _ = Task.Run(async () =>
                     {
                         await SecureStorage.SetAsync(AppConsts.Access_Token, model.Token);
+                        await SecureStorage.SetAsync(AppConsts.Refresh_Token, model.RefreshToken);
+
                         await SecureStorage.SetAsync(AppConsts.User_Account, jsonData);
                     });
                 }

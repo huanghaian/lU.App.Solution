@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TestSampleApp.ViewModels
+namespace TestApp.Interface.Models
 {
     public class LogInResultViewModel
     {

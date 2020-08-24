@@ -45,6 +45,7 @@ namespace TestSampleApp
         protected override void ConfigureServicesCore(IServiceCollection services)
         {
             services.AddTransient<IWeatherService, WeatherService>();
+            services.AddTransient<IAccountService, AccountService>();
         }
 
     }

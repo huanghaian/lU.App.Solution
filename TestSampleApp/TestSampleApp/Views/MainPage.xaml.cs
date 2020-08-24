@@ -26,13 +26,19 @@ namespace TestSampleApp.Views
             try
             {
                 var retult = await AppServices.Current.Services.GetService<IWeatherService>().GetWeathers();
+                var token = await SecureStorage.GetAsync(AppConsts.Access_Token);
+                var refren_token = await SecureStorage.GetAsync(AppConsts.Refresh_Token);
                 await DisplayAlert("提示",retult.Length.ToString(),"取消");
             }
             catch(Exception ex)
             {
                 if(ex is UnauthorizedAccessException)
                 {
-                    
+                    var token =await SecureStorage.GetAsync(AppConsts.Access_Token);
+                    var refren_token = await SecureStorage.GetAsync(AppConsts.Refresh_Token);
+                    if (token == null || refren_token == null)
+                        return;
+                    var result=await AppServices.Current.Services.GetService<IAccountService>().RefreshToken(token,refren_token);
                 }
             }
         }
