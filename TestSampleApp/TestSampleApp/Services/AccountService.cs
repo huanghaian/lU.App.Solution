@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TestApp.Interface;
 using TestApp.Interface.Models;
+using Xamarin.Essentials;
 
 namespace TestSampleApp.Services
 {
@@ -18,9 +19,33 @@ namespace TestSampleApp.Services
             _client = AppHttpClient.Current.CreateHttpClient();
         }
 
-        public Task<LogInResultViewModel> Login(string user, string pwd)
+        public async Task<LogInResultViewModel> Login(string user, string puserwd)
         {
-            throw new NotImplementedException();
+            var data = new Dictionary<string, string>() { { "username", user }, { "password", user } };
+            var jsonData = JsonConvert.SerializeObject(data);
+            var content = new StringContent(jsonData, System.Text.Encoding.UTF8, "application/json");
+            var result = await _client.PostAsync("/api/account/login", content);
+            var contentString = await result.Content.ReadAsStringAsync();
+            var model = JsonConvert.DeserializeObject<LogInResultViewModel>(contentString);
+            if (result.IsSuccessStatusCode)
+            {
+                if (model.Succeeded)
+                {
+                    _ = Task.Run(async () =>
+                    {
+                        await SecureStorage.SetAsync(AppConsts.Access_Token, model.Token);
+                        await SecureStorage.SetAsync(AppConsts.Refresh_Token, model.RefreshToken);
+
+                        await SecureStorage.SetAsync(AppConsts.User_Account, jsonData);
+                    });
+                }
+                return model;
+
+            }
+            else
+            {
+                return new LogInResultViewModel() { Error = await result.Content.ReadAsStringAsync() };
+            }
         }
 
         public async Task<LogInResultViewModel> RefreshToken(string token, string refreshToken)

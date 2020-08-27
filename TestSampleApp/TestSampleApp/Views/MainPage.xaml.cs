@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,41 +26,42 @@ namespace TestSampleApp.Views
 
         private async void TestButton_Clicked(object sender, EventArgs e)
         {
-            await AppServices.Current.Services.GetService<IWeatherService>().GetWeathers().ContinueWith(task =>
+
+            try
             {
-                var text = task.Result.Length.ToString();
-                text_label.Text = "123";
-            }, TaskScheduler.FromCurrentSynchronizationContext());
-            //try
-            //{
+                await AppServices.Current.Services.GetRequiredService<IWeatherService>().GetWeathers().ContinueWith(task =>
+                {
+                    var text = task.Result.Length.ToString();
+                    text_label.Text = "123";
+                }, TaskScheduler.FromCurrentSynchronizationContext());
 
-                
-            //        //var token = await SecureStorage.GetAsync(AppConsts.Access_Token);
-            //        //var refren_token = await SecureStorage.GetAsync(AppConsts.Refresh_Token);
-            //        //await DisplayAlert("提示", retult.Length.ToString(), "取消");
+                //var token = await SecureStorage.GetAsync(AppConsts.Access_Token);
+                //var refren_token = await SecureStorage.GetAsync(AppConsts.Refresh_Token);
+                //await DisplayAlert("提示", retult.Length.ToString(), "取消");
 
-               
-            //}
-            //catch(Exception ex)
-            //{
-            //    if(ex is UnauthorizedAccessException)
-            //    {
-            //        var token =await SecureStorage.GetAsync(AppConsts.Access_Token);
-            //        var refren_token = await SecureStorage.GetAsync(AppConsts.Refresh_Token);
-            //        if (token == null || refren_token == null)
-            //            return;
-            //        var content = await AppServices.Current.Services.GetService<IAccountService>().RefreshToken(token, refren_token);
-            //        if (!content.Succeeded)
-            //        {
-            //            await DisplayAlert("提示", "已失效，请重新登录。", "确定");
-            //        }
-            //        else
-            //        {
-            //            await SecureStorage.SetAsync(AppConsts.Access_Token, content.Token);
-            //            await SecureStorage.SetAsync(AppConsts.Refresh_Token, content.RefreshToken);
-            //        }
-            //    }
-            //}
+
+            }
+            catch (Exception ex)
+            {
+                if (ex is UnauthorizedAccessException)
+                {
+                    var token = await SecureStorage.GetAsync(AppConsts.Access_Token);
+                    var refren_token = await SecureStorage.GetAsync(AppConsts.Refresh_Token);
+                    if (token == null || refren_token == null)
+                        return;
+                    var content = await AppServices.Current.Services.GetRequiredService<IAccountService>().RefreshToken(token, refren_token);
+                    if (!content.Succeeded)
+                    {
+                        await DisplayAlert("提示", "已失效，请重新登录。", "确定");
+                    }
+                    else
+                    {
+                        await SecureStorage.SetAsync(AppConsts.Access_Token, content.Token);
+                        await SecureStorage.SetAsync(AppConsts.Refresh_Token, content.RefreshToken);
+                    }
+                }
+                //}
+            }
         }
     }
 }

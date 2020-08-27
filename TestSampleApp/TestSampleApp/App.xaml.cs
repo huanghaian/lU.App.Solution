@@ -4,11 +4,14 @@ using Xamarin.Forms.Xaml;
 using TestSampleApp.Services;
 using TestSampleApp.Views;
 using UI.Mobie.AppCore;
-using Microsoft.Extensions.DependencyInjection;
 using UI.Mobie.AppCore.Services;
 using UI.Mobie.AppCore.Abstractions;
 using TestApp.Interface;
 using Xamarin.Essentials;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TestSampleApp
 {
@@ -28,10 +31,20 @@ namespace TestSampleApp
             AppHttpClient.BaiseUrl = "http://10.67.2.59";
             DependencyService.Register<MockDataStore>();
 
-            var token = AsyncHelper.RunWithResultAsync(async () => { return await SecureStorage.GetAsync(AppConsts.Access_Token); });
-            if (token != null)
+            var account = AsyncHelper.RunWithResultAsync(async () => { return await SecureStorage.GetAsync(AppConsts.User_Account); });
+            if (account != null)
             {
-                MainPage = new NavigationPage(new MainPage());
+                var result = JsonConvert.DeserializeObject<Dictionary<string,string>>(account);
+                _ = Task.Run(async() =>
+                {
+                   var model =await AppServices.Current.Services.GetRequiredService<IAccountService>().Login(result["username"],result["password"]) ;
+                    if (!model.Succeeded)
+                        return;
+                }).ContinueWith(task=> {
+                    if (task.IsFaulted)
+                        return;
+                    MainPage = new NavigationPage(new MainPage());
+                }, TaskScheduler.FromCurrentSynchronizationContext());
             }
             else
             {
@@ -42,7 +55,7 @@ namespace TestSampleApp
         {
             
         }
-        protected override void ConfigureServicesCore(IServiceCollection services)
+        protected override void ConfigureServicesCore(Microsoft.Extensions.DependencyInjection.IServiceCollection services)
         {
             services.AddTransient<IWeatherService, WeatherService>();
             services.AddTransient<IAccountService, AccountService>();
