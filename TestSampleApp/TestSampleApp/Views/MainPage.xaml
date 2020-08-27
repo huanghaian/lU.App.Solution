@@ -7,7 +7,7 @@
              x:Class="TestSampleApp.Views.MainPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
+            <Label Text="Welcome to Xamarin.Forms!" x:Name="text_label"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
             <Button x:Name="TestButton" Text="点击我" Clicked="TestButton_Clicked"></Button>

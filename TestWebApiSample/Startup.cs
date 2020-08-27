@@ -61,6 +61,17 @@ namespace TestWebApiSample
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
                         ClockSkew = TimeSpan.Zero
                     };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnAuthenticationFailed = context =>
+                        {
+                            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                            {
+                                context.Response.Headers.Add("token_act", "expired");
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
                     //options.Events = new JwtBearerEvents
                     //{
                     //    OnTokenValidated = context =>

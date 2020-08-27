@@ -65,9 +65,9 @@ namespace TestWebApiSample.Controllers
                     {
                         var user = await _UserManager.Users.SingleOrDefaultAsync(t => t.UserName == loginViewModel.UserName);
                         var token = GetAssceeToken(user);
-                        await cache.SetAsync(CacheConsts.Access_Token + "__" + user.UserName, System.Text.Encoding.UTF8.GetBytes(token), new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = new TimeSpan(DateTime.Now.AddMinutes(120).Ticks) });
+                        await cache.SetAsync(CacheConsts.Access_Token + "__" + user.UserName, Encoding.UTF8.GetBytes(token), new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow =TimeSpan.FromSeconds(60) });
                         var _re_token = await GetRefreshToken();
-                        await cache.SetAsync(CacheConsts.Refresh_Token + "__" + user.UserName, System.Text.Encoding.UTF8.GetBytes(_re_token), new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = new TimeSpan(DateTime.Now.AddDays(7).Ticks) });
+                        await cache.SetAsync(CacheConsts.Refresh_Token + "__" + user.UserName, Encoding.UTF8.GetBytes(_re_token), new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(7) });
                         return new TokeResult() { Token = token, RefreshToken = _re_token, Succeeded = true, Error = string.Empty };
                     }
                     else
@@ -93,7 +93,7 @@ namespace TestWebApiSample.Controllers
                 new Claim("AppUser","AppUser"),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
             };
-            var token = new JwtSecurityToken(config["Jwt:Issuer"], config["Jwt:Issuer"], cliams, expires: DateTime.Now.AddMinutes(120), signingCredentials: credentials);
+            var token = new JwtSecurityToken(config["Jwt:Issuer"], config["Jwt:Issuer"], cliams, expires: DateTime.Now.AddSeconds(60), signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
         public async Task<string> GetRefreshToken()
