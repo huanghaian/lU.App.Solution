@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http;
+using TestApp.Interface.Models;
 
 namespace TestSampleApp
 {
@@ -28,23 +30,35 @@ namespace TestSampleApp
             {
                 Options.HttpMessageHandlerFactory = messageHandler => httpMessageHandlerFactory.Handle(messageHandler, Options);
             };
-            AppHttpClient.BaiseUrl = "http://10.67.2.59";
+            AppHttpClient.BaiseUrl = "http://10.67.2.41";
             DependencyService.Register<MockDataStore>();
 
             var account = AsyncHelper.RunWithResultAsync(async () => { return await SecureStorage.GetAsync(AppConsts.User_Account); });
             if (account != null)
             {
                 var result = JsonConvert.DeserializeObject<Dictionary<string,string>>(account);
-                _ = Task.Run(async() =>
+                var loginResult = AsyncHelper.RunWithResultAsync(async()=>
                 {
-                   var model =await AppServices.Current.Services.GetRequiredService<IAccountService>().Login(result["username"],result["password"]) ;
-                    if (!model.Succeeded)
-                        return;
-                }).ContinueWith(task=> {
-                    if (task.IsFaulted)
-                        return;
+                    var httpclient = AppHttpClient.Current.CreateHttpClient();
+                    var data = new Dictionary<string, string>() { { "username", result["username"] }, { "password", result["password"] } };
+                    var jsonData = JsonConvert.SerializeObject(data);
+                    var content = new StringContent(jsonData, System.Text.Encoding.UTF8, "application/json");
+                    var reposeContent = await httpclient.PostAsync("/api/account/login", content);
+                    if (reposeContent.IsSuccessStatusCode)
+                    {
+                        var contentString = await reposeContent.Content.ReadAsStringAsync();
+                        var model = JsonConvert.DeserializeObject<LogInResultViewModel>(contentString);
+                        return model;
+                    }
+                    else
+                        return new LogInResultViewModel() { Error = "请求错误。" };
+
+                });
+                if (loginResult.Succeeded)
+                {
                     MainPage = new NavigationPage(new MainPage());
-                }, TaskScheduler.FromCurrentSynchronizationContext());
+                }else
+                    MainPage = new NavigationPage(new LoginPage()); 
             }
             else
             {

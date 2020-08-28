@@ -29,11 +29,7 @@ namespace TestSampleApp.Views
 
             try
             {
-                await AppServices.Current.Services.GetRequiredService<IWeatherService>().GetWeathers().ContinueWith(task =>
-                {
-                    var text = task.Result.Length.ToString();
-                    text_label.Text = "123";
-                }, TaskScheduler.FromCurrentSynchronizationContext());
+                await AppServices.Current.Services.GetRequiredService<IWeatherService>().GetWeathers();
 
                 //var token = await SecureStorage.GetAsync(AppConsts.Access_Token);
                 //var refren_token = await SecureStorage.GetAsync(AppConsts.Refresh_Token);
@@ -50,7 +46,7 @@ namespace TestSampleApp.Views
                     if (token == null || refren_token == null)
                         return;
                     var content = await AppServices.Current.Services.GetRequiredService<IAccountService>().RefreshToken(token, refren_token);
-                    if (!content.Succeeded)
+                    if (content==null||!content.Succeeded)
                     {
                         await DisplayAlert("提示", "已失效，请重新登录。", "确定");
                     }

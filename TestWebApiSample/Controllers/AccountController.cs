@@ -114,12 +114,15 @@ namespace TestWebApiSample.Controllers
             await _RefreshSlim.WaitAsync();
             try
             {
+                _Logger.LogInformation("开始刷新token");
                 var cache = HttpContext.RequestServices.GetService<IDistributedCache>();
                 if (string.IsNullOrWhiteSpace(accessToken) || string.IsNullOrWhiteSpace(refreshAccessToken))
                     throw new ArgumentException();
                 var claimsPrincipal = GetPrincipal(accessToken);
                 var userId = claimsPrincipal.Claims.FirstOrDefault(t => t.Type == ClaimTypes.NameIdentifier)?.Value;
                 var userName = claimsPrincipal.Claims.FirstOrDefault(t => t.Type == JwtRegisteredClaimNames.Sub)?.Value;
+                _Logger.LogInformation($"{userName}用户名");
+
                 if (userName != null)
                 {
                     var refreshToken = await cache.GetAsync(CacheConsts.Refresh_Token + "__" + userName);
@@ -132,13 +135,19 @@ namespace TestWebApiSample.Controllers
                         {
                             var user = _UserManager.Users.FirstOrDefault(t=>t.Id==Guid.Parse(userId));
                             var token = GetAssceeToken(user);
+                            _Logger.LogInformation($"{token}新token");
                             await cache.SetAsync(CacheConsts.Access_Token + "__" + user.UserName, System.Text.Encoding.UTF8.GetBytes(token), new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = new TimeSpan(DateTime.Now.AddMinutes(120).Ticks) });
                             var _re_token = await GetRefreshToken();
+                            _Logger.LogInformation($"{_re_token}新刷新token");
                             await cache.SetAsync(CacheConsts.Refresh_Token + "__" + user.UserName, System.Text.Encoding.UTF8.GetBytes(_re_token), new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = new TimeSpan(DateTime.Now.AddDays(7).Ticks) });
                             return new TokeResult { StatusCode = 200, Succeeded = true, Token = token, RefreshToken = _re_token, Error = "" };
                         }
                         else
                         {
+                            _Logger.LogError("Refresh_Token与服务端不一致");
+                            _Logger.LogInformation($"旧的：{refreshAccessToken}");
+                            _Logger.LogInformation($"新的：{to}");
+
                             return new TokeResult { StatusCode = 401, Succeeded = false, Error = "Refresh_Token与服务端不一致" };
                         }
                     }
@@ -147,6 +156,9 @@ namespace TestWebApiSample.Controllers
                 {
                     return new TokeResult { StatusCode = 401, Succeeded = false, Error = "无法解析出用户cliams，请重新登录。" };
                 }
+            }catch(SecurityTokenExpiredException e)
+            {
+                return new TokeResult { StatusCode = 500, Succeeded = false, Error = "token 过期无法解析cliams" };
             }
             finally
             {
