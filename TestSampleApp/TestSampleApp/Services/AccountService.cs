@@ -54,11 +54,11 @@ namespace TestSampleApp.Services
                 throw new ArgumentNullException(nameof(token));
             if (string.IsNullOrWhiteSpace(refreshToken))
                 throw new ArgumentNullException(refreshToken);
-            //var dic = new Dictionary<string, string>() { { "accessToken", token }, { "refreshAccessToken", refreshToken } };
+            var dic = new Dictionary<string, string>() { { "accessToken", token }, { "refreshAccessToken", refreshToken } };
             //var data = JsonConvert.SerializeObject(dic);
-            //var condent = new StringContent(data,Encoding.UTF8, "application/json");
-            var uri= "/api/account/RefreshAccessToken?accessToken=" + Uri.EscapeDataString(token) + "&&" + "refreshAccessToken=" + Uri.EscapeDataString(refreshToken);
-            var result =await _client.GetAsync(uri);
+            var condent = new FormUrlEncodedContent(dic);
+            var uri= "/api/account/RefreshAccessToken?accessToken";
+            var result =await _client.PostAsync(uri,condent);
             var resposeResult = await result.Content.ReadAsStringAsync();
             var model = JsonConvert.DeserializeObject<LogInResultViewModel>(resposeResult);
             return model;
