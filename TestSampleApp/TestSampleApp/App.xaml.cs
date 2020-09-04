@@ -56,8 +56,16 @@ namespace TestSampleApp
                 });
                 if (loginResult.Succeeded)
                 {
+
                     MainPage = new NavigationPage(new MainPage());
-                }else
+                    Task.Run(async() =>
+                    {
+                        await SecureStorage.SetAsync(AppConsts.Access_Token, loginResult.Token);
+                        await SecureStorage.SetAsync(AppConsts.Refresh_Token, loginResult.RefreshToken);
+                    });
+                    
+                }
+                else
                     MainPage = new NavigationPage(new LoginPage()); 
             }
             else

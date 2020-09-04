@@ -32,28 +32,20 @@
                     <!--<Image Source="ic_username.png" HeightRequest="20" WidthRequest="20"></Image>-->
                     <Label Text="账号" FontSize="14" TextColor="#333333"/>
                 </StackLayout>
-                <Frame Grid.Row="1" Margin="0,8,0,0" HeightRequest="40" BackgroundColor="#F0F0F0" 
-                           Padding="20,0,0,0" CornerRadius="10">
-                    <Entry Placeholder="输入您的账号" FontSize="14" ClearButtonVisibility="WhileEditing" Keyboard="Email" ReturnType="Done" PlaceholderColor="#D9D9D9" x:Name="username" />
-                </Frame>
+
+                <Entry Grid.Row="1" Placeholder="输入您的账号" FontSize="14" ClearButtonVisibility="WhileEditing" Keyboard="Email" ReturnType="Done" PlaceholderColor="#D9D9D9" x:Name="username" />
                 <StackLayout Grid.Row="2" Orientation="Horizontal" VerticalOptions="End">
                     <!--<Image Source="ic_password.png" HeightRequest="20" WidthRequest="20"/>-->
                     <Label Text="密码" FontSize="14" TextColor="#333333"/>
                 </StackLayout>
-                <Frame Grid.Row="3" HeightRequest="40" 
-                           Padding="20,0,0,0"
-                           VerticalOptions="Center" 
-                           BackgroundColor="#F0F0F0" 
-                           Margin="0,8,0,0" 
-                           CornerRadius="10">
-                    <Grid>
+
+                    <Grid Grid.Row="3">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="35"/>
                         </Grid.ColumnDefinitions>
-                        <Entry Placeholder="输入密码" FontSize="14" VerticalOptions="Center" IsPassword="True" PlaceholderColor="#D9D9D9" x:Name="password" />
+                    <Entry Placeholder="输入密码" FontSize="14" VerticalOptions="Center" ClearButtonVisibility="WhileEditing" IsPassword="True" PlaceholderColor="#D9D9D9" x:Name="password" />
                     </Grid>
-                </Frame>
                 <Button Grid.Row="4" Text="登录 " 
                         Margin="0,20,0,0"
                         HorizontalOptions="Fill" BackgroundColor="#3071F3" 

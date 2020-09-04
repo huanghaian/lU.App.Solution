@@ -10,10 +10,7 @@ namespace TestAppUnitTest
         [TestMethod]
         public void TestMethod1()
         {
-            using (var client = new HttpClient())
-            {
-
-            }
+            
         }
     }
 }

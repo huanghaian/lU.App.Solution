@@ -29,13 +29,8 @@ namespace TestSampleApp.Views
 
             try
             {
-                await AppServices.Current.Services.GetRequiredService<IWeatherService>().GetWeathers();
-
-                //var token = await SecureStorage.GetAsync(AppConsts.Access_Token);
-                //var refren_token = await SecureStorage.GetAsync(AppConsts.Refresh_Token);
-                //await DisplayAlert("提示", retult.Length.ToString(), "取消");
-
-
+                var result =await AppServices.Current.Services.GetRequiredService<IWeatherService>().GetWeathers();
+                await DisplayAlert("提示", result.Length.ToString(), "取消");
             }
             catch (Exception ex)
             {
@@ -48,7 +43,11 @@ namespace TestSampleApp.Views
                     var content = await AppServices.Current.Services.GetRequiredService<IAccountService>().RefreshToken(token, refren_token);
                     if (content==null||!content.Succeeded)
                     {
+                        SecureStorage.Remove(AppConsts.Access_Token);
+                        SecureStorage.Remove(AppConsts.Refresh_Token);
                         await DisplayAlert("提示", "已失效，请重新登录。", "确定");
+                        Navigation.InsertPageBefore(new LoginPage(), this);
+                        await Navigation.PopAsync();
                     }
                     else
                     {
