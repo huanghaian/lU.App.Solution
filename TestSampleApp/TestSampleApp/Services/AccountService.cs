@@ -57,7 +57,8 @@ namespace TestSampleApp.Services
             //var dic = new Dictionary<string, string>() { { "accessToken", token }, { "refreshAccessToken", refreshToken } };
             //var data = JsonConvert.SerializeObject(dic);
             //var condent = new StringContent(data,Encoding.UTF8, "application/json");
-            var result =await _client.GetAsync("/api/account/RefreshAccessToken?accessToken="+ Uri.EscapeDataString(token) + "&&"+ "refreshAccessToken="+Uri.EscapeDataString(refreshToken));
+            var uri= "/api/account/RefreshAccessToken?accessToken=" + Uri.EscapeDataString(token) + "&&" + "refreshAccessToken=" + Uri.EscapeDataString(refreshToken);
+            var result =await _client.GetAsync(uri);
             var resposeResult = await result.Content.ReadAsStringAsync();
             var model = JsonConvert.DeserializeObject<LogInResultViewModel>(resposeResult);
             return model;

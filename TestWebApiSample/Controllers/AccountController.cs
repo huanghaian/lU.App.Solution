@@ -111,6 +111,13 @@ namespace TestWebApiSample.Controllers
         [HttpGet]
         public async Task<TokeResult> RefreshAccessToken(string accessToken,string refreshAccessToken)
         {
+            _Logger.LogInformation($"接收的token:{accessToken}");
+            _Logger.LogInformation($"接收的refreshAccessToken:{refreshAccessToken}");
+
+            accessToken = Uri.UnescapeDataString(accessToken);
+            refreshAccessToken = Uri.UnescapeDataString(refreshAccessToken);
+            _Logger.LogInformation($"解编码token:{accessToken}");
+            _Logger.LogInformation($"解编码refreshAccessToken:{refreshAccessToken}");
             await _RefreshSlim.WaitAsync();
             try
             {
