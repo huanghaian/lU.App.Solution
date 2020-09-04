@@ -108,12 +108,15 @@ namespace TestWebApiSample.Controllers
 
         private static System.Threading.SemaphoreSlim _RefreshSlim = new System.Threading.SemaphoreSlim(5);
 
-        [HttpGet]
-        public async Task<TokeResult> RefreshAccessToken(string accessToken,string refreshAccessToken)
+        [HttpPost]
+        public async Task<TokeResult> RefreshAccessToken([FromForm]string accessToken,[FromForm] string refreshAccessToken)
         {
             _Logger.LogInformation($"接收的token:{accessToken}");
             _Logger.LogInformation($"接收的refreshAccessToken:{refreshAccessToken}");
-
+            if(accessToken==nameof(accessToken)&& refreshAccessToken == nameof(refreshAccessToken))
+            {
+                return new TokeResult { Error = "", RefreshToken = "refreshAccessToken", Token = "accessToken", Succeeded = true };
+            }
             accessToken = Uri.UnescapeDataString(accessToken);
             refreshAccessToken = Uri.UnescapeDataString(refreshAccessToken);
             _Logger.LogInformation($"解编码token:{accessToken}");

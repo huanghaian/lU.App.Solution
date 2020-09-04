@@ -14,9 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TestSampleApp\TestSampleApp.Android\TestSampleApp.Android.csproj" />
-    <ProjectReference Include="..\TestSampleApp\TestSampleApp.iOS\TestSampleApp.iOS.csproj" />
-    <ProjectReference Include="..\TestSampleApp\TestSampleApp\TestSampleApp.csproj" />
+    <ProjectReference Include="..\TestWebApiSample\TestWebApiSample.csproj" />
   </ItemGroup>
 
 </Project>

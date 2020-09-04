@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,8 +30,16 @@ namespace TestSampleApp.Views
 
             try
             {
-                var result =await AppServices.Current.Services.GetRequiredService<IWeatherService>().GetWeathers();
-                await DisplayAlert("提示", result.Length.ToString(), "取消");
+                //var result =await AppServices.Current.Services.GetRequiredService<IWeatherService>().GetWeathers();
+                //await DisplayAlert("提示", result.Length.ToString(), "取消");
+                using (var client = new HttpClient())
+                {
+                    var dic = new Dictionary<string, string>() { { "accessToken", "accessToken" }, { "refreshAccessToken", "refreshAccessToken" } };
+                    var data = JsonConvert.SerializeObject(dic);
+                    var condent = new StringContent(data, Encoding.UTF8, "application/json");
+                    var result = await client.PostAsync("http://localhost:8080/api/account/RefreshAccessToken", condent);
+                    var model = JsonConvert.DeserializeObject<LogInResultViewModel>(await result.Content.ReadAsStringAsync());
+                }
             }
             catch (Exception ex)
             {
