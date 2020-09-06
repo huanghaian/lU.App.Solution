@@ -18,7 +18,7 @@ namespace TestAppUnitTest
             {
                 var dic = new Dictionary<string, string>() { { "accessToken", "accessToken" }, { "refreshAccessToken", "refreshAccessToken" } };
                 var condent = new FormUrlEncodedContent(dic);
-                var result = await client.PostAsync("http://10.67.2.41/api/account/RefreshAccessToken", condent);
+                var result = await client.PostAsync("http://localhost/api/account/RefreshAccessToken", condent);
                 var model =JsonConvert.DeserializeObject<TokeResult>(await result.Content.ReadAsStringAsync());
                 Assert.IsTrue(model.Succeeded);
             }

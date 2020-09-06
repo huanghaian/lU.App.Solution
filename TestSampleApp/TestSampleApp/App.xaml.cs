@@ -30,7 +30,7 @@ namespace TestSampleApp
             {
                 Options.HttpMessageHandlerFactory = messageHandler => httpMessageHandlerFactory.Handle(messageHandler, Options);
             };
-            AppHttpClient.BaiseUrl = "http://10.67.2.41";
+            AppHttpClient.BaiseUrl = "http://localhost";
             DependencyService.Register<MockDataStore>();
 
             var account = AsyncHelper.RunWithResultAsync(async () => { return await SecureStorage.GetAsync(AppConsts.User_Account); });
