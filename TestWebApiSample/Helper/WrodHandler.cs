@@ -14,6 +14,7 @@ namespace TestWebApiSample.Helper
 
         public IList<string> GetTextInTable(string path)
         {
+            
             var file =Path.GetFileName(path);
             if (file.StartsWith("~$"))
             {
@@ -21,7 +22,7 @@ namespace TestWebApiSample.Helper
             }
             var rootPath = $"C:\\WordTemp";
             var files = Directory.GetFiles(rootPath, "*.docx", SearchOption.AllDirectories);
-            if (files == null)
+            if (files == null||!files.Any())
                 throw new ArgumentException("文件夹下的word文件不存在！") ;
             var filePath = path;
             var stream = File.OpenRead(filePath);
@@ -43,8 +44,8 @@ namespace TestWebApiSample.Helper
                 }
                 return list;
             }
-            else
-                return new List<string>();
+            stream.Close();
+            return list;
         }
 
         public void ReadWord()
