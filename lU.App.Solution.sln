@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp.Interface", "TestAp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0B18B0C8-D25A-4BFC-8BA0-A915E7798D27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAppUnitTest", "TestAppUnitTest\TestAppUnitTest.csproj", "{9033B3A5-622E-4FEE-912B-CD1698C59F03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAppUnitTest", "TestAppUnitTest\TestAppUnitTest.csproj", "{9033B3A5-622E-4FEE-912B-CD1698C59F03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
